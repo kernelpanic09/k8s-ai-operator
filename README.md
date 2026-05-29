@@ -1,8 +1,10 @@
-![Go version](https://img.shields.io/badge/go-1.22-blue)
-![Kubernetes](https://img.shields.io/badge/kubernetes-1.27%2B-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-
 # k8s-ai-operator
+
+[![License: MIT](https://img.shields.io/github/license/kernelpanic09/k8s-ai-operator)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/kernelpanic09/k8s-ai-operator?include_prereleases&sort=semver)](https://github.com/kernelpanic09/k8s-ai-operator/releases)
+[![Last commit](https://img.shields.io/github/last-commit/kernelpanic09/k8s-ai-operator)](https://github.com/kernelpanic09/k8s-ai-operator/commits)
+[![Go](https://img.shields.io/badge/go-1.22-blue)](go.mod)
+[![Kubernetes](https://img.shields.io/badge/kubernetes-1.27%2B-blue)](https://kubernetes.io)
 
 A Kubernetes operator that turns AWS Bedrock model access into first-class cluster resources, with cost tracking, rate limiting, and guardrails baked in.
 
