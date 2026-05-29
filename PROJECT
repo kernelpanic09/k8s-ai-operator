@@ -1,0 +1,38 @@
+domain: kernelpanic09.io
+layout:
+- go.kubebuilder.io/v4
+projectName: k8s-ai-operator
+repo: github.com/kernelpanic09/k8s-ai-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: kernelpanic09.io
+  group: ai
+  kind: ModelEndpoint
+  path: github.com/kernelpanic09/k8s-ai-operator/api/v1alpha1
+  version: v1alpha1
+  webhooks:
+    defaulting: true
+    validation: true
+    webhookVersion: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: kernelpanic09.io
+  group: ai
+  kind: PromptTemplate
+  path: github.com/kernelpanic09/k8s-ai-operator/api/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: false
+  controller: true
+  domain: kernelpanic09.io
+  group: ai
+  kind: GuardrailPolicy
+  path: github.com/kernelpanic09/k8s-ai-operator/api/v1alpha1
+  version: v1alpha1
+version: "3"

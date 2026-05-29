@@ -1,0 +1,19 @@
+apiVersion: ai.kernelpanic09.io/v1alpha1
+kind: ModelEndpoint
+metadata:
+  name: claude-haiku
+  namespace: ai-workloads
+  labels:
+    team: platform
+    env: production
+spec:
+  modelId: anthropic.claude-haiku-4-5-20251001-v1:0
+  region: us-east-1
+  irsaRoleArn: arn:aws:iam::123456789012:role/bedrock-invoker
+  maxTokens: 4096
+  costBudget:
+    daily: "10.00"
+    monthly: "200.00"
+  rateLimit:
+    requestsPerMinute: 60
+  guardrailPolicyRef: pii-and-safety

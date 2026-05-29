@@ -1,0 +1,4 @@
+resources:
+- bases/ai.kernelpanic09.io_modelendpoints.yaml
+- bases/ai.kernelpanic09.io_prompttemplates.yaml
+- bases/ai.kernelpanic09.io_guardrailpolicies.yaml

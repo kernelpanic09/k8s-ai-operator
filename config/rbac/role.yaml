@@ -1,0 +1,29 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: k8s-ai-operator
+  labels:
+    app.kubernetes.io/name: k8s-ai-operator
+rules:
+# CRD management
+- apiGroups: ["ai.kernelpanic09.io"]
+  resources: ["modelendpoints", "prompttemplates", "guardrailpolicies"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: ["ai.kernelpanic09.io"]
+  resources: ["modelendpoints/status", "prompttemplates/status", "guardrailpolicies/status"]
+  verbs: ["get", "update", "patch"]
+- apiGroups: ["ai.kernelpanic09.io"]
+  resources: ["modelendpoints/finalizers", "prompttemplates/finalizers", "guardrailpolicies/finalizers"]
+  verbs: ["update"]
+# Owned resources
+- apiGroups: [""]
+  resources: ["services", "configmaps"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+# Leader election
+- apiGroups: [""]
+  resources: ["events"]
+  verbs: ["create", "patch"]
+- apiGroups: ["coordination.k8s.io"]
+  resources: ["leases"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]

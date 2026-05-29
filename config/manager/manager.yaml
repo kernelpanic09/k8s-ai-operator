@@ -1,0 +1,107 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ai-operator-system
+  labels:
+    app.kubernetes.io/name: k8s-ai-operator
+    app.kubernetes.io/managed-by: kustomize
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-ai-operator
+  namespace: ai-operator-system
+  labels:
+    app.kubernetes.io/name: k8s-ai-operator
+    app.kubernetes.io/component: manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: k8s-ai-operator
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: k8s-ai-operator
+      annotations:
+        kubectl.kubernetes.io/default-container: manager
+        # Prometheus scrape annotations — works with the default Prometheus
+        # kubernetes_sd_configs + pod relabeling rules.
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: k8s-ai-operator
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: manager
+        image: ghcr.io/kernelpanic09/k8s-ai-operator:latest
+        imagePullPolicy: IfNotPresent
+        args:
+        - --leader-elect
+        - --log-level=info
+        - --proxy-namespace=ai-operator-system
+        - --proxy-service-name=k8s-ai-operator-proxy
+        env:
+        - name: AWS_REGION
+          value: us-east-1
+        # AWS_ROLE_ARN and AWS_WEB_IDENTITY_TOKEN_FILE are injected automatically
+        # when IRSA is configured on the ServiceAccount.
+        ports:
+        - name: metrics
+          containerPort: 8080
+          protocol: TCP
+        - name: health
+          containerPort: 8081
+          protocol: TCP
+        - name: proxy
+          containerPort: 8090
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 500m
+            memory: 256Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-ai-operator-proxy
+  namespace: ai-operator-system
+  labels:
+    app.kubernetes.io/name: k8s-ai-operator
+    app.kubernetes.io/component: proxy
+spec:
+  selector:
+    app.kubernetes.io/name: k8s-ai-operator
+  ports:
+  - name: proxy
+    port: 8090
+    targetPort: proxy
+  - name: metrics
+    port: 8080
+    targetPort: metrics

@@ -1,0 +1,14 @@
+namePrefix: ""
+
+resources:
+- ../crd
+- ../rbac
+- ../manager
+
+# Uncomment to enable webhook support:
+# - ../webhook
+
+# Images can be overridden here for environment-specific deployments:
+# images:
+# - name: ghcr.io/kernelpanic09/k8s-ai-operator
+#   newTag: v0.1.0

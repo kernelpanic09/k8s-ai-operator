@@ -1,0 +1,56 @@
+apiVersion: ai.kernelpanic09.io/v1alpha1
+kind: GuardrailPolicy
+metadata:
+  name: pii-and-safety
+spec:
+  description: Blocks PII leakage and high-severity harmful content for production endpoints.
+  blockedInputMessage: "Your request contains content that cannot be processed. If you believe this is an error, contact your platform team."
+  blockedOutputsMessage: "The model response was blocked by the content policy. Please rephrase your request."
+
+  sensitiveInformationPolicy:
+    piiEntities:
+    - type: EMAIL
+      action: ANONYMIZE
+    - type: PHONE
+      action: ANONYMIZE
+    - type: US_SOCIAL_SECURITY_NUMBER
+      action: BLOCK
+    - type: CREDIT_DEBIT_CARD_NUMBER
+      action: BLOCK
+    - type: AWS_ACCESS_KEY
+      action: BLOCK
+    - type: AWS_SECRET_KEY
+      action: BLOCK
+    - type: PASSWORD
+      action: BLOCK
+    - type: NAME
+      action: ANONYMIZE
+    - type: ADDRESS
+      action: ANONYMIZE
+
+  contentPolicy:
+    filters:
+    - type: PROMPT_ATTACK
+      inputStrength: HIGH
+      outputStrength: HIGH
+    - type: HATE
+      inputStrength: HIGH
+      outputStrength: HIGH
+    - type: VIOLENCE
+      inputStrength: MEDIUM
+      outputStrength: MEDIUM
+    - type: SEXUAL
+      inputStrength: HIGH
+      outputStrength: HIGH
+
+  topicPolicy:
+    topics:
+    - name: competitor-disparagement
+      definition: Content that disparages or makes false claims about competitor products or companies.
+      examples:
+      - "Why is product X so much worse than ours?"
+      - "Explain why company Y is about to go bankrupt."
+
+  wordPolicy:
+    managedWordLists:
+    - PROFANITY

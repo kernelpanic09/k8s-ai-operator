@@ -1,0 +1,38 @@
+# Binaries
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Build output
+dist/
+
+# Test output
+*.test
+*.out
+coverage.html
+coverage.txt
+
+# Go workspace
+go.work
+go.work.sum
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Kubebuilder testenv binaries (downloaded by envtest setup)
+testbin/
+
+# Local env overrides
+.env
+.env.local
+
+# Helm chart lock (generated)
+Chart.lock

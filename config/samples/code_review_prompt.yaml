@@ -1,0 +1,34 @@
+apiVersion: ai.kernelpanic09.io/v1alpha1
+kind: PromptTemplate
+metadata:
+  name: code-review
+  namespace: ai-workloads
+spec:
+  systemPrompt: |
+    You are a senior software engineer conducting a code review.
+    Be direct, specific, and constructive. Flag actual bugs over style preferences.
+    If a change is clearly correct, say so briefly rather than padding feedback.
+  template: |
+    Review the following diff and provide feedback focused on {{.Focus}}.
+
+    ```diff
+    {{.Diff}}
+    ```
+
+    Limit your response to the most important 3-5 points. For each finding:
+    - State the issue clearly
+    - Explain why it matters
+    - Suggest a concrete fix where applicable
+  variables:
+  - name: Diff
+    type: string
+    required: true
+    description: The unified diff to review.
+  - name: Focus
+    type: string
+    required: false
+    default: security and correctness
+    description: The review lens to apply (e.g. "security", "performance", "correctness").
+  modelEndpointRef:
+    name: claude-haiku
+  maxTokens: 1024
