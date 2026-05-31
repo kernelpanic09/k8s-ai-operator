@@ -20,8 +20,8 @@ type ModelPricing struct {
 // https://aws.amazon.com/bedrock/pricing/
 var Pricing = map[string]ModelPricing{
 	// Claude 4 family
-	"anthropic.claude-opus-4-20250514-v1:0":   {InputPer1M: 15.00, OutputPer1M: 75.00},
-	"anthropic.claude-sonnet-4-20250514-v1:0": {InputPer1M: 3.00, OutputPer1M: 15.00},
+	"anthropic.claude-opus-4-20250514-v1:0":     {InputPer1M: 15.00, OutputPer1M: 75.00},
+	"anthropic.claude-sonnet-4-20250514-v1:0":   {InputPer1M: 3.00, OutputPer1M: 15.00},
 	"anthropic.claude-sonnet-4-6-20250514-v1:0": {InputPer1M: 3.00, OutputPer1M: 15.00},
 
 	// Claude 3.7 family
@@ -41,42 +41,42 @@ var Pricing = map[string]ModelPricing{
 	"anthropic.claude-haiku-4-5-20251001-v1:0": {InputPer1M: 0.80, OutputPer1M: 4.00},
 
 	// Meta Llama 3 family
-	"meta.llama3-8b-instruct-v1:0":   {InputPer1M: 0.30, OutputPer1M: 0.60},
-	"meta.llama3-70b-instruct-v1:0":  {InputPer1M: 2.65, OutputPer1M: 3.50},
-	"meta.llama3-1-8b-instruct-v1:0": {InputPer1M: 0.22, OutputPer1M: 0.22},
-	"meta.llama3-1-70b-instruct-v1:0": {InputPer1M: 0.72, OutputPer1M: 0.72},
+	"meta.llama3-8b-instruct-v1:0":     {InputPer1M: 0.30, OutputPer1M: 0.60},
+	"meta.llama3-70b-instruct-v1:0":    {InputPer1M: 2.65, OutputPer1M: 3.50},
+	"meta.llama3-1-8b-instruct-v1:0":   {InputPer1M: 0.22, OutputPer1M: 0.22},
+	"meta.llama3-1-70b-instruct-v1:0":  {InputPer1M: 0.72, OutputPer1M: 0.72},
 	"meta.llama3-1-405b-instruct-v1:0": {InputPer1M: 5.32, OutputPer1M: 16.00},
-	"meta.llama3-2-11b-instruct-v1:0": {InputPer1M: 0.16, OutputPer1M: 0.16},
-	"meta.llama3-2-90b-instruct-v1:0": {InputPer1M: 2.00, OutputPer1M: 2.00},
-	"meta.llama3-2-1b-instruct-v1:0":  {InputPer1M: 0.10, OutputPer1M: 0.10},
-	"meta.llama3-2-3b-instruct-v1:0":  {InputPer1M: 0.15, OutputPer1M: 0.15},
-	"meta.llama3-3-70b-instruct-v1:0": {InputPer1M: 0.72, OutputPer1M: 0.72},
+	"meta.llama3-2-11b-instruct-v1:0":  {InputPer1M: 0.16, OutputPer1M: 0.16},
+	"meta.llama3-2-90b-instruct-v1:0":  {InputPer1M: 2.00, OutputPer1M: 2.00},
+	"meta.llama3-2-1b-instruct-v1:0":   {InputPer1M: 0.10, OutputPer1M: 0.10},
+	"meta.llama3-2-3b-instruct-v1:0":   {InputPer1M: 0.15, OutputPer1M: 0.15},
+	"meta.llama3-3-70b-instruct-v1:0":  {InputPer1M: 0.72, OutputPer1M: 0.72},
 
 	// Amazon Titan family
-	"amazon.titan-text-lite-v1":     {InputPer1M: 0.30, OutputPer1M: 0.40},
-	"amazon.titan-text-express-v1":  {InputPer1M: 0.80, OutputPer1M: 1.60},
+	"amazon.titan-text-lite-v1":      {InputPer1M: 0.30, OutputPer1M: 0.40},
+	"amazon.titan-text-express-v1":   {InputPer1M: 0.80, OutputPer1M: 1.60},
 	"amazon.titan-text-premier-v1:0": {InputPer1M: 0.50, OutputPer1M: 1.50},
 
 	// Amazon Nova family
-	"amazon.nova-micro-v1:0":  {InputPer1M: 0.035, OutputPer1M: 0.14},
-	"amazon.nova-lite-v1:0":   {InputPer1M: 0.06, OutputPer1M: 0.24},
-	"amazon.nova-pro-v1:0":    {InputPer1M: 0.80, OutputPer1M: 3.20},
+	"amazon.nova-micro-v1:0":   {InputPer1M: 0.035, OutputPer1M: 0.14},
+	"amazon.nova-lite-v1:0":    {InputPer1M: 0.06, OutputPer1M: 0.24},
+	"amazon.nova-pro-v1:0":     {InputPer1M: 0.80, OutputPer1M: 3.20},
 	"amazon.nova-premier-v1:0": {InputPer1M: 2.50, OutputPer1M: 12.50},
 
 	// Mistral family
-	"mistral.mistral-7b-instruct-v0:2":  {InputPer1M: 0.15, OutputPer1M: 0.20},
+	"mistral.mistral-7b-instruct-v0:2":   {InputPer1M: 0.15, OutputPer1M: 0.20},
 	"mistral.mixtral-8x7b-instruct-v0:1": {InputPer1M: 0.45, OutputPer1M: 0.70},
-	"mistral.mistral-large-2402-v1:0":   {InputPer1M: 4.00, OutputPer1M: 12.00},
-	"mistral.mistral-large-2407-v1:0":   {InputPer1M: 3.00, OutputPer1M: 9.00},
-	"mistral.mistral-small-2402-v1:0":   {InputPer1M: 1.00, OutputPer1M: 3.00},
+	"mistral.mistral-large-2402-v1:0":    {InputPer1M: 4.00, OutputPer1M: 12.00},
+	"mistral.mistral-large-2407-v1:0":    {InputPer1M: 3.00, OutputPer1M: 9.00},
+	"mistral.mistral-small-2402-v1:0":    {InputPer1M: 1.00, OutputPer1M: 3.00},
 
 	// Cohere family
-	"cohere.command-r-v1:0":        {InputPer1M: 0.50, OutputPer1M: 1.50},
-	"cohere.command-r-plus-v1:0":   {InputPer1M: 3.00, OutputPer1M: 15.00},
-	"cohere.command-text-v14":      {InputPer1M: 1.50, OutputPer1M: 2.00},
+	"cohere.command-r-v1:0":         {InputPer1M: 0.50, OutputPer1M: 1.50},
+	"cohere.command-r-plus-v1:0":    {InputPer1M: 3.00, OutputPer1M: 15.00},
+	"cohere.command-text-v14":       {InputPer1M: 1.50, OutputPer1M: 2.00},
 	"cohere.command-light-text-v14": {InputPer1M: 0.30, OutputPer1M: 0.60},
-	"cohere.embed-english-v3":      {InputPer1M: 0.10, OutputPer1M: 0},
-	"cohere.embed-multilingual-v3": {InputPer1M: 0.10, OutputPer1M: 0},
+	"cohere.embed-english-v3":       {InputPer1M: 0.10, OutputPer1M: 0},
+	"cohere.embed-multilingual-v3":  {InputPer1M: 0.10, OutputPer1M: 0},
 
 	// AI21 family
 	"ai21.jamba-1-5-mini-v1:0":  {InputPer1M: 0.20, OutputPer1M: 0.40},

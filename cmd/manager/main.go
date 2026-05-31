@@ -36,15 +36,15 @@ func init() {
 
 func main() {
 	var (
-		metricsAddr      string
-		probeAddr        string
-		proxyAddr        string
+		metricsAddr          string
+		probeAddr            string
+		proxyAddr            string
 		enableLeaderElection bool
-		enableWebhooks   bool
-		leaderElectionID string
-		proxyNamespace   string
-		proxyServiceName string
-		logLevel         string
+		enableWebhooks       bool
+		leaderElectionID     string
+		proxyNamespace       string
+		proxyServiceName     string
+		logLevel             string
 	)
 
 	flag.StringVar(&metricsAddr, "metrics-bind-address", ":8080",

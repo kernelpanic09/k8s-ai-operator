@@ -205,7 +205,7 @@ func (r *GuardrailPolicyReconciler) updateGuardrail(
 		return "", fmt.Errorf("UpdateGuardrail %s: %w", gp.Status.GuardrailId, err)
 	}
 
-	return aws.ToString(out.GuardrailVersion), nil
+	return aws.ToString(out.Version), nil
 }
 
 func (r *GuardrailPolicyReconciler) handleGuardrailDeletion(

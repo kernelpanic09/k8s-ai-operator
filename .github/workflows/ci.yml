@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ENVTEST_K8S_VERSION: "1.31.0"
+
+jobs:
+  ci:
+    name: Build, vet, and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Check formatting (gofmt)
+        run: |
+          unformatted=$(gofmt -l $(find . -name '*.go' -not -path './vendor/*'))
+          if [ -n "$unformatted" ]; then
+            echo "These files are not gofmt-formatted:"
+            echo "$unformatted"
+            exit 1
+          fi
+
+      - name: go vet
+        run: go vet ./...
+
+      - name: Build
+        run: go build ./...
+
+      # Controller tests run against a real kube-apiserver + etcd via envtest.
+      - name: Set up envtest binaries
+        run: |
+          go install sigs.k8s.io/controller-runtime/tools/setup-envtest@latest
+          echo "KUBEBUILDER_ASSETS=$(setup-envtest use ${ENVTEST_K8S_VERSION} -p path)" >> "$GITHUB_ENV"
+
+      - name: Test
+        run: go test -race -coverprofile=coverage.out ./...

@@ -204,9 +204,9 @@ func (r *ModelEndpointReconciler) reconcileService(
 			Name:      svcName,
 			Namespace: ep.Namespace,
 			Labels: map[string]string{
-				"app.kubernetes.io/managed-by":  "k8s-ai-operator",
-				"ai.kernelpanic09.io/endpoint":  ep.Name,
-				"ai.kernelpanic09.io/model-id":  sanitizeLabel(ep.Spec.ModelId),
+				"app.kubernetes.io/managed-by": "k8s-ai-operator",
+				"ai.kernelpanic09.io/endpoint": ep.Name,
+				"ai.kernelpanic09.io/model-id": sanitizeLabel(ep.Spec.ModelId),
 			},
 		},
 	}

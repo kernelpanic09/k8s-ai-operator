@@ -60,21 +60,18 @@ var irsaArnPattern = regexp.MustCompile(`^arn:aws[a-z-]*:iam::\d{12}:role/.+$`)
 //
 // +kubebuilder:webhook:path=/validate-ai-kernelpanic09-io-v1alpha1-modelendpoint,mutating=false,failurePolicy=fail,sideEffects=None,groups=ai.kernelpanic09.io,resources=modelendpoints,verbs=create;update,versions=v1alpha1,name=vmodelendpoint.kb.io,admissionReviewVersions=v1
 type ModelEndpointValidator struct {
-	decoder *admission.Decoder
+	decoder admission.Decoder
 }
 
 // SetupWithManager registers the webhook with the manager.
 func (v *ModelEndpointValidator) SetupWithManager(mgr ctrl.Manager) error {
+	// As of controller-runtime v0.15 the framework no longer injects a decoder
+	// via InjectDecoder; construct one from the manager's scheme instead.
+	v.decoder = admission.NewDecoder(mgr.GetScheme())
 	mgr.GetWebhookServer().Register(
 		"/validate-ai-kernelpanic09-io-v1alpha1-modelendpoint",
 		&admission.Webhook{Handler: v},
 	)
-	return nil
-}
-
-// InjectDecoder is called by the webhook framework.
-func (v *ModelEndpointValidator) InjectDecoder(d *admission.Decoder) error {
-	v.decoder = d
 	return nil
 }
 
@@ -149,13 +146,17 @@ func validateBudget(budget *aiv1alpha1.BudgetSpec) error {
 //
 // +kubebuilder:webhook:path=/mutate-ai-kernelpanic09-io-v1alpha1-modelendpoint,mutating=true,failurePolicy=fail,sideEffects=None,groups=ai.kernelpanic09.io,resources=modelendpoints,verbs=create,versions=v1alpha1,name=mmodelendpoint.kb.io,admissionReviewVersions=v1
 type ModelEndpointDefaulter struct {
-	decoder *admission.Decoder
+	decoder admission.Decoder
 	scheme  *runtime.Scheme
 }
 
-// NewModelEndpointDefaulter constructs a defaulter.
+// NewModelEndpointDefaulter constructs a defaulter. The decoder is built from
+// the same scheme; controller-runtime v0.15+ no longer injects one.
 func NewModelEndpointDefaulter(scheme *runtime.Scheme) *ModelEndpointDefaulter {
-	return &ModelEndpointDefaulter{scheme: scheme}
+	return &ModelEndpointDefaulter{
+		scheme:  scheme,
+		decoder: admission.NewDecoder(scheme),
+	}
 }
 
 func (d *ModelEndpointDefaulter) SetupWithManager(mgr ctrl.Manager) error {
@@ -163,11 +164,6 @@ func (d *ModelEndpointDefaulter) SetupWithManager(mgr ctrl.Manager) error {
 		"/mutate-ai-kernelpanic09-io-v1alpha1-modelendpoint",
 		&admission.Webhook{Handler: d},
 	)
-	return nil
-}
-
-func (d *ModelEndpointDefaulter) InjectDecoder(dec *admission.Decoder) error {
-	d.decoder = dec
 	return nil
 }
 

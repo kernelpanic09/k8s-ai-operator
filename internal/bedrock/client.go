@@ -46,10 +46,10 @@ type InvokeOutput struct {
 // We assemble this ourselves rather than using the SDK type so the proxy can
 // pass it through without tying callers to any one SDK version.
 type converseRequest struct {
-	ModelId         string             `json:"modelId"`
-	Messages        []converseMessage  `json:"messages"`
-	System          []systemContent    `json:"system,omitempty"`
-	InferenceConfig *inferenceConfig   `json:"inferenceConfig,omitempty"`
+	ModelId         string            `json:"modelId"`
+	Messages        []converseMessage `json:"messages"`
+	System          []systemContent   `json:"system,omitempty"`
+	InferenceConfig *inferenceConfig  `json:"inferenceConfig,omitempty"`
 }
 
 type converseMessage struct {
@@ -66,7 +66,7 @@ type systemContent struct {
 }
 
 type inferenceConfig struct {
-	MaxTokens *int32  `json:"maxTokens,omitempty"`
+	MaxTokens   *int32   `json:"maxTokens,omitempty"`
 	Temperature *float64 `json:"temperature,omitempty"`
 }
 
