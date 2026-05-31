@@ -121,7 +121,12 @@ func TestModelEndpointReconcile_DeletionWithoutFinalizer(t *testing.T) {
 			Name:              "deleting-ep",
 			Namespace:         "ai-workloads",
 			DeletionTimestamp: &now,
-			// No finalizer: deletion should be a no-op from the operator's perspective.
+			// The object is being deleted but does NOT carry OUR finalizer, so the
+			// operator's handleDeletion is a no-op. A deleting object must still
+			// carry at least one finalizer to exist at all (the API server would
+			// otherwise garbage-collect it), and controller-runtime v0.19's fake
+			// client enforces this invariant — so we give it an unrelated one.
+			Finalizers: []string{"example.com/other-finalizer"},
 		},
 		Spec: aiv1alpha1.ModelEndpointSpec{
 			ModelId:     "amazon.nova-lite-v1:0",
