@@ -242,6 +242,7 @@ make docker-build IMAGE_TAG=dev
 - [agents-platform](https://github.com/kernelpanic09/agents-platform) - Multi-agent scheduling platform that this operator was designed to serve.
 - [mcp-server-aws](https://github.com/kernelpanic09/mcp-server-aws) - Model Context Protocol server for AWS services.
 - [terraform-aws-modules](https://github.com/kernelpanic09/terraform-aws-modules) - Terraform modules for the IAM roles this operator references.
+- [bedrock-cli](https://github.com/kernelpanic09/bedrock-cli) - a terminal companion for the same Bedrock surface (Knowledge Bases, Agents, Guardrails) this operator exposes in-cluster.
 
 ## License
 
