@@ -86,7 +86,7 @@ Response:
   "inputTokens": 24,
   "outputTokens": 51,
   "stopReason": "end_turn",
-  "costUSD": "0.000224"
+  "costUSD": "0.000223"
 }
 ```
 
