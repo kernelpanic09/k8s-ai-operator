@@ -67,8 +67,8 @@ EOF
 
 # 4. Check that it's ready.
 kubectl get modelendpoints -n ai-workloads
-# NAME          MODEL                                      REGION      AVAILABLE   COST/MONTH   INVOCATIONS
-# claude-haiku  anthropic.claude-haiku-4-5-20251001-v1:0  us-east-1   true        0.00         0
+# NAME          MODEL                                      REGION      AVAILABLE   COST/MONTH   INVOCATIONS   AGE
+# claude-haiku  anthropic.claude-haiku-4-5-20251001-v1:0  us-east-1   true        0.00         0             12s
 
 # 5. Invoke from another pod in ai-workloads.
 curl -s -X POST \
