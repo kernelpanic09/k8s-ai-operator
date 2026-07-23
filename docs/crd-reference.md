@@ -24,7 +24,7 @@ Namespace-scoped. Short name: `me`. Category: `ai`.
 | Field | Type | Description |
 |-------|------|-------------|
 | `available` | bool | True when Bedrock is reachable and no budget has been breached. |
-| `conditions` | []Condition | Standard K8s conditions: `Ready`, `BedrockReachable`. |
+| `conditions` | []Condition | Standard K8s conditions: `Ready`, `BedrockReachable`, `BudgetBreached`. |
 | `costThisMonth` | string | Accumulated USD spend this calendar month. |
 | `costToday` | string | Accumulated USD spend today (UTC). |
 | `invocationsToday` | int64 | Invocation count since UTC midnight. |
