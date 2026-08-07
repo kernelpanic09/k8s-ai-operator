@@ -44,11 +44,9 @@ type RenderRequest struct {
 	Variables map[string]string `json:"variables"`
 }
 
-// rateLimiterEntry holds a per-endpoint token bucket and the time it was last
-// accessed (for eventual LRU eviction if needed).
+// rateLimiterEntry holds a per-endpoint token bucket.
 type rateLimiterEntry struct {
-	limiter  *rate.Limiter
-	lastSeen time.Time
+	limiter *rate.Limiter
 }
 
 // Handler processes /invoke and /render requests. It holds references to the
@@ -306,7 +304,6 @@ func (h *Handler) getLimiter(namespace, name string, rpm int32) *rate.Limiter {
 		entry = &rateLimiterEntry{limiter: rate.NewLimiter(r, burst)}
 		h.rateLimiters[key] = entry
 	}
-	entry.lastSeen = time.Now()
 	return entry.limiter
 }
 
