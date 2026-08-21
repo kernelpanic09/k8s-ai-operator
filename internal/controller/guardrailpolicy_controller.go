@@ -253,15 +253,12 @@ func buildContentPolicy(spec *aiv1alpha1.ContentPolicyConfig) *types.GuardrailCo
 func buildTopicPolicy(spec *aiv1alpha1.TopicPolicyConfig) *types.GuardrailTopicPolicyConfig {
 	cfg := &types.GuardrailTopicPolicyConfig{}
 	for _, t := range spec.Topics {
-		topic := types.GuardrailTopicConfig{
+		cfg.TopicsConfig = append(cfg.TopicsConfig, types.GuardrailTopicConfig{
 			Name:       aws.String(t.Name),
 			Definition: aws.String(t.Definition),
 			Type:       types.GuardrailTopicTypeDeny,
-		}
-		for _, ex := range t.Examples {
-			topic.Examples = append(topic.Examples, ex)
-		}
-		cfg.TopicsConfig = append(cfg.TopicsConfig, topic)
+			Examples:   t.Examples,
+		})
 	}
 	return cfg
 }
