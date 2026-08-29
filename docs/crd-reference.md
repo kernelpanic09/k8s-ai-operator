@@ -99,6 +99,29 @@ and deletes the Bedrock guardrail on delete (before removing the finalizer).
 | `wordPolicy.words[]` | []string | no | Exact words to block. |
 | `wordPolicy.managedWordLists[]` | []string | no | Bedrock-managed word lists (e.g. `PROFANITY`). |
 
+### spec.contentPolicy.filters[]
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `type` | string | yes | Content category. One of: `SEXUAL`, `VIOLENCE`, `HATE`, `INSULTS`, `MISCONDUCT`, `PROMPT_ATTACK`. |
+| `inputStrength` | string | yes | Filter aggressiveness for user input. One of: `NONE`, `LOW`, `MEDIUM` (default), `HIGH`. |
+| `outputStrength` | string | yes | Filter aggressiveness for model output. One of: `NONE`, `LOW`, `MEDIUM` (default), `HIGH`. |
+
+### spec.sensitiveInformationPolicy.piiEntities[]
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `type` | string | yes | PII category, e.g. `EMAIL`, `US_SOCIAL_SECURITY_NUMBER`, `PHONE`. See [Bedrock PII types](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-pii.html) for the full list. |
+| `action` | string | yes | `BLOCK` — reject the request; `ANONYMIZE` — redact the entity in place. |
+
+### spec.topicPolicy.topics[]
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | yes | Human-readable label for this denied topic. |
+| `definition` | string | yes | Natural-language description used by Bedrock to classify topic matches. More precise definitions reduce false positives. |
+| `examples` | []string | no | Sample phrases that illustrate the topic. Additional examples improve classification accuracy. |
+
 ### status
 
 | Field | Type | Description |
