@@ -117,10 +117,11 @@ func (r *ModelEndpointReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	}
 	metrics.EndpointAvailable.WithLabelValues(ep.Namespace, ep.Name, ep.Spec.ModelId).Set(availableVal)
 
-	// Read current cost/invocation counters from Prometheus for status update.
-	// We do a best-effort scrape of the counter values here. In a full
-	// implementation this would use the Prometheus HTTP API or an in-memory
-	// accumulator. For now we carry forward whatever was set last.
+	// Note: CostThisMonth, CostToday, InvocationsToday, TotalInputTokens, and
+	// TotalOutputTokens on ModelEndpointStatus are not populated here. Cost and
+	// token accounting is only tracked as Prometheus counters (internal/metrics);
+	// surfacing them onto the CRD status would require scraping those counters
+	// back out, which isn't implemented yet.
 	patch := client.MergeFrom(ep.DeepCopy())
 
 	ep.Status.Available = health.Available
