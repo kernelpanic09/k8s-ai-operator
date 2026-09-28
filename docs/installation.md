@@ -56,8 +56,8 @@ kubectl apply -f config/samples/claude_haiku_endpoint.yaml
 
 # Check endpoint status.
 kubectl get modelendpoints -n ai-workloads
-# NAME          MODEL                                      REGION      AVAILABLE   COST/MONTH   INVOCATIONS
-# claude-haiku  anthropic.claude-haiku-4-5-20251001-v1:0  us-east-1   true        0.00         0
+# NAME          MODEL                                      REGION      AVAILABLE   COST/MONTH   INVOCATIONS   AGE
+# claude-haiku  anthropic.claude-haiku-4-5-20251001-v1:0  us-east-1   true        0.00         0             12s
 
 # View the proxy Service the operator created.
 kubectl get svc -n ai-workloads
