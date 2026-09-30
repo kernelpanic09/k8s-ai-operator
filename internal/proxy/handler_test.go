@@ -2,6 +2,8 @@ package proxy
 
 import (
 	"testing"
+
+	"golang.org/x/time/rate"
 )
 
 func TestParsePathSegments(t *testing.T) {
@@ -141,5 +143,68 @@ func TestRenderTemplate(t *testing.T) {
 				t.Errorf("output = %q, want %q", got, tc.want)
 			}
 		})
+	}
+}
+
+func TestGetLimiter(t *testing.T) {
+	tests := []struct {
+		name      string
+		rpm       int32
+		wantLimit rate.Limit
+		wantBurst int
+	}{
+		{
+			name:      "60 rpm gives 1 req/sec with 10% burst",
+			rpm:       60,
+			wantLimit: rate.Limit(60.0 / 60.0),
+			wantBurst: 6,
+		},
+		{
+			name:      "rpm below 10 floors burst to 1",
+			rpm:       5,
+			wantLimit: rate.Limit(5.0 / 60.0),
+			wantBurst: 1,
+		},
+		{
+			name:      "rpm of exactly 10 gives burst of 1",
+			rpm:       10,
+			wantLimit: rate.Limit(10.0 / 60.0),
+			wantBurst: 1,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			h := NewHandler(nil, nil, nil)
+			limiter := h.getLimiter("default", "endpoint", tc.rpm)
+			if limiter.Limit() != tc.wantLimit {
+				t.Errorf("Limit() = %v, want %v", limiter.Limit(), tc.wantLimit)
+			}
+			if limiter.Burst() != tc.wantBurst {
+				t.Errorf("Burst() = %v, want %v", limiter.Burst(), tc.wantBurst)
+			}
+		})
+	}
+}
+
+// getLimiter caches one limiter per namespace/name key, so a later call with a
+// different rpm is silently ignored until the process restarts.
+func TestGetLimiterCachesPerEndpoint(t *testing.T) {
+	h := NewHandler(nil, nil, nil)
+
+	first := h.getLimiter("default", "my-endpoint", 60)
+	second := h.getLimiter("default", "my-endpoint", 60)
+	if first != second {
+		t.Error("getLimiter should return the same *rate.Limiter for repeated calls with the same key")
+	}
+
+	changedRPM := h.getLimiter("default", "my-endpoint", 120)
+	if changedRPM != first {
+		t.Error("getLimiter should keep serving the cached limiter even when rpm changes for an existing key")
+	}
+
+	other := h.getLimiter("default", "other-endpoint", 60)
+	if other == first {
+		t.Error("getLimiter should create a distinct limiter for a distinct namespace/name key")
 	}
 }
