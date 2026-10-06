@@ -86,8 +86,12 @@ Per-endpoint `ExternalName` Services point to this server, so workload pods just
 
 The proxy enforces:
 - **Rate limiting**: per-endpoint token bucket (requests/minute from the spec).
-- **Budget gating**: if the current period's accumulated cost exceeds the spec's limit, requests receive HTTP 429.
 - **MaxTokens cap**: callers can request fewer tokens but not more than the endpoint's `maxTokens`.
+
+`spec.costBudget` is validated at admission time and per-invocation cost is tracked via the
+`invocation_cost_dollars_total` metric, but the proxy does not yet reject requests once a budget
+is exceeded — `budget_breached_total` and the `BudgetBreached` condition are reserved for when
+that enforcement is added. See the `Note` in `ModelEndpointReconciler.Reconcile`.
 
 ### Metrics
 
