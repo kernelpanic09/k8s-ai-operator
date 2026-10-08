@@ -285,8 +285,11 @@ func sanitizeLabel(s string) string {
 	return string(out)
 }
 
-// FormatCost formats a float64 cost to 2 decimal places for status fields.
-// Used by the status update path when reading accumulated cost from metrics.
+// FormatCost formats a float64 cost to 2 decimal places, matching the string
+// format of ModelEndpointStatus.CostThisMonth/CostToday. Not currently called
+// from Reconcile: as noted above, those fields aren't populated yet because
+// doing so would require scraping the Prometheus cost counters back out.
+// Exported ahead of that work so callers can start depending on the format.
 func FormatCost(v float64) string {
 	return strconv.FormatFloat(v, 'f', 2, 64)
 }
